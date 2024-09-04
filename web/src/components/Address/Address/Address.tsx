@@ -60,12 +60,12 @@ const Address = ({ address }: Props) => {
               <td>{address.addressId}</td>
             </tr>
             <tr>
-              <th>Street</th>
-              <td>{address.street}</td>
+              <th>Street Number</th>
+              <td>{address.number}</td>
             </tr>
             <tr>
-              <th>Number</th>
-              <td>{address.number}</td>
+              <th>Street Name</th>
+              <td>{address.street}</td>
             </tr>
             <tr>
               <th>City</th>

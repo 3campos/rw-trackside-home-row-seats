@@ -39,29 +39,11 @@ const AddressForm = (props: AddressFormProps) => {
         />
 
         <Label
-          name="street"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Street
-        </Label>
-
-        <TextField
-          name="street"
-          defaultValue={props.address?.street}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="street" className="rw-field-error" />
-
-        <Label
           name="number"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
         >
-          Number
+          Street Number
         </Label>
 
         <NumberField
@@ -73,6 +55,24 @@ const AddressForm = (props: AddressFormProps) => {
         />
 
         <FieldError name="number" className="rw-field-error" />
+
+        <Label
+          name="street"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Street Name
+        </Label>
+
+        <TextField
+          name="street"
+          defaultValue={props.address?.street}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+
+        <FieldError name="street" className="rw-field-error" />
 
         <Label
           name="city"
