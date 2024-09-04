@@ -1,6 +1,6 @@
 import React from 'react'
 
-import RentalCard from 'web/src/components/Rental/RentalCard.js'
+import RentalCard from './RentalCard.js'
 
 const CardContainer = () => {
   return (
