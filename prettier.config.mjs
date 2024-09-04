@@ -1,6 +1,6 @@
 // https://prettier.io/docs/en/options.html
 /** @type {import('prettier').RequiredOptions} */
-module.exports = {
+export default {
   trailingComma: 'es5',
   bracketSpacing: true,
   tabWidth: 2,
@@ -15,4 +15,6 @@ module.exports = {
       },
     },
   ],
+  tailwindConfig: './web/config/tailwind.config.js',
+  plugins: [await import('prettier-plugin-tailwindcss')],
 }
