@@ -5,7 +5,7 @@
 // https://www.prisma.io/docs/orm/prisma-migrate
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -17,8 +17,47 @@ generator client {
 // Define your own datamodels here and run `yarn redwood prisma migrate dev`
 // to create migrations for them and apply to your dev DB.
 // TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model User {
+  userId      Int    @id @default(autoincrement())
+  email       String @unique
+  firstName   String
+  lastName    String
+  phoneNumber String @unique
+}
+
+model Renter {
+  renterId    Int      @id @default(autoincrement())
+  email       String   @unique
+  phoneNumber String   @unique
+  firstName   String
+  lastName    String
+  rentals     Rental[]
+}
+
+model Rental {
+  rentalId    Int      @id @default(autoincrement())
+  seatingType String
+  price       Int
+  address     Address?
+  guestLimit  Int
+  renter      Renter   @relation(fields: [rentalId], references: [renterId])
+}
+
+model Address {
+  addressId       Int    @id @default(autoincrement())
+  street          String
+  number          Int
+  city            String
+  stateOrProvince String
+  country         String
+  rental          Rental @relation(fields: [rentalId], references: [rentalId])
+  rentalId        Int    @unique
+}
+
+model Event {
+  eventId      Int      @id @default(autoincrement())
+  eventName    String
+  eventDate    DateTime
+  eventCity    String
+  eventCountry String
 }
