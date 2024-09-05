@@ -1,16 +1,15 @@
 // import { Link, routes } from '@redwoodjs/router'
-import { Metadata } from '@redwoodjs/web'
-
+// import { Metadata } from '@redwoodjs/web'
+import './HomePage.css'
 import CardContainer from 'src/components/Home/CardContainer'
 import SearchBar from 'src/components/SearchBarComponents/SearchBar'
 
 const HomePage = () => {
   return (
-    <>
-      <Metadata title="Home" description="Home page" />
+    <div className="home-page grid gap-y-2">
       <SearchBar />
       <CardContainer />
-    </>
+    </div>
   )
 }
 
