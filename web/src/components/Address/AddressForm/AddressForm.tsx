@@ -1,3 +1,4 @@
+import axios from 'axios'
 import type { EditAddressByAddressId, UpdateAddressInput } from 'types/graphql'
 
 import type { RWGqlError } from '@redwoodjs/forms'
@@ -11,6 +12,10 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 
+declare let google: any
+
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
+
 type FormAddress = NonNullable<EditAddressByAddressId['address']>
 
 interface AddressFormProps {
@@ -23,12 +28,56 @@ interface AddressFormProps {
   loading: boolean
 }
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
-
 const AddressForm = (props: AddressFormProps) => {
+  // const onSubmit = (data: FormAddress) => {
+  //   props.onSave(data, props?.address?.addressId)
+  // }
+
+  // let addressInput = ''
+
+  // const onSubmit = (data: FormAddress) => {
+  //   const addressInput = Object.values(data).join(' ')
+  //   console.log(addressInput)
+  // }
+
   const onSubmit = (data: FormAddress) => {
-    props.onSave(data, props?.address?.addressId)
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_API_KEY}`
+    script.async = true
+    script.defer = true
+    document.head.appendChild(script)
+
+    type GoogleGeocodingResponse = {
+      results: {
+        geometry: { location: { lat: number; lng: number } }
+      }[]
+      status: 'OK' | 'ZERO_RESULTS'
+    }
+    const enteredAddress = Object.values(data).join(' ')
+
+    axios
+      .get<GoogleGeocodingResponse>(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
+          enteredAddress
+        )}&key=${GOOGLE_API_KEY}`
+      )
+      .then((response) => {
+        if (response.data.status !== 'OK') {
+          throw new Error('Could not fetch location!')
+        }
+        const coordinates = response.data.results[0].geometry.location
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: coordinates,
+          zoom: 16,
+        })
+        new google.maps.Marker({ position: coordinates, map: map })
+      })
+      .catch((err) => {
+        alert(err.message)
+        console.log(err.message)
+      })
   }
+
 
   return (
     <div className="rw-form-wrapper">
