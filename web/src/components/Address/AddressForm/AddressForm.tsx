@@ -23,6 +23,8 @@ interface AddressFormProps {
   loading: boolean
 }
 
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
+
 const AddressForm = (props: AddressFormProps) => {
   const onSubmit = (data: FormAddress) => {
     props.onSave(data, props?.address?.addressId)
